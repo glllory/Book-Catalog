@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/footer.css" />
+    <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="//apis.google.com/js/platform.js?onload=start"></script>
+    <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+  </head>
+  <body>
+    <div class="container">
+      <nav id="navbar" class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/catalog">Books</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/catalog">Home <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div id="result" class="jumbotron myJumbotron">
+        <div class="d-flex mb-3 align-items-center">
+          <h1 class="p-2 display-4">Login with your Google Account</h1>
+        </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-danger" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <hr class="my-4">
+        <div class="row text-center">
+          <div id="signinButton">
+            <span class="g-signin"
+            data-scope="openid email profile"
+            data-clientid="1039967465218-lu3fqc2qtvimhe95ihla3oi09mqmqu8q.apps.googleusercontent.com"
+            data-redirecturi="postmessage"
+            data-accesstype="offline"
+            data-cookiepolicy="single_host_origin"
+            data-callback="signInCallback"
+            data-approvalprompt="force">
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="p-3 p-md-5 footer">
+        <p class="madeBy">Copyright 2019</p>
+        <p class="madeBy">Created with &hearts; by <span class="name">Majd Saleh</span></p>
+    </footer>
+
+    <script type="text/javascript">
+      function signInCallback(authResult) {
+        // Hide sign-in button
+        $('#signInButton').attr('style', 'display: none;')
+
+        $.ajax({
+          type: 'POST',
+          url: '/gconnect?state={{STATE}}',
+          processData: false,
+          contentType: 'application/octet-stream; charset=utf-8',
+          data: authResult['code'],
+          success: function(result) {
+            if(result) {
+              $("#result").html("<div class='alert alert-success' role='alert'>Login Successful!</div><br />"+ result + "<br /> <span class='text-muted'>Redirecting...</span>")
+              setTimeout(function() {
+                window.location.href = "/catalog";
+              }, 4000)
+
+            } else if(authResult['error']) {
+              console.log("There was an error: " + authResult['error']);
+
+            } else {
+              $("#result").html("<div class='alert alert-danger' role='alert'>Failed to make a server side call.  Try again later.</div>")
+            }
+          }
+        })
+      }
+    </script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+  </body>
+</html>

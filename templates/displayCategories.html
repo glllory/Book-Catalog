@@ -1,0 +1,24 @@
+{% include 'header.html' %}
+<div id="" class="jumbotron myJumbotron">
+  <div class="d-flex mb-3 align-items-center">
+    <h1 class="p-2 display-5"><strong>{{ category_name }}</strong></h1>
+  </div>
+  <hr class="my-4">
+  <div class="row">
+    <div class="col-5 text-center">
+      <strong>Category</strong>
+      {% for category in categories %}
+          <br />
+          <a class="myAnchor" href="/catalog/{{ category.name }}">{{ category.name }}</a>
+      {% endfor %}
+    </div>
+    <div class="col-7">
+      <strong> <em>{{ category_name }}</em> Items </strong>
+      {% for item in items %}
+          <br />
+          <a class="myAnchor" href="/catalog/{{ item.category.name }}/{{ item.id }}">{{ item.name }}</a> <span>({{ item.category.name }})</span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}

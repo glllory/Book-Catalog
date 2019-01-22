@@ -1,0 +1,27 @@
+{% include "header.html" %}
+  <div class="jumbotron myJumbotron">
+    <form method="POST" action="/catalog/new">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputName">Name</label>
+          <input name="name" id="inputName" type="text" class="form-control" placeholder="Name" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputCategory">Category</label>
+          <select name="category" id="inputCategory" class="form-control" required>
+            <option value="" selected>categories</option>
+            {% for category in categories %}
+                <option value={{ category.id }}>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputDescription">Description</label>
+        <textarea name="description" id="inputDescription" class="form-control" rows="8" placeholder="Description" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a class="btn btn-light" href="/catalog">Cancel</a>
+    </form>
+  </div>
+{% include "footer.html" %}

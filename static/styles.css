@@ -1,0 +1,53 @@
+html {
+  height: 100%;
+  background-color: #112F41;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  background-color: #112F41;
+}
+
+.myContent {
+  margin: 0 auto;
+  margin-bottom: 10rem;
+}
+
+.myAnchor {
+  color: white;
+}
+
+.myJumbotron {
+  margin-top: 2.0rem;
+  background-color: #068587;
+  color: white;
+}
+
+#navbar {
+  margin-top: 30px;
+  background-color: #112F41;
+}
+
+#searchForm {
+  margin: auto;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.myUsernameDetails {
+  color: white;
+  weight: 500;
+  margin-right: 10px;
+}

@@ -1,0 +1,47 @@
+{% include 'header.html' %}
+<div id="" class="jumbotron myJumbotron">
+  <div class="d-flex mb-3 align-items-center">
+    <h1 class="p-2 display-5 text-uppercase">Welcome</h1>
+    {% if isLogged() %}
+      <div class="ml-auto p-2">
+        <a class="btn btn-primary btn-lg" href="/catalog/new"><i class="fas fa-plus icon"></i>Add Book</a>
+      </div>
+    {% endif %}
+  </div>
+  <p class="lead">
+    Udacity Item Catalog Project - Full Stack Nanodegree Program &hearts;
+  </p>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'success' %}
+          <div class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
+        {% elif category == 'error' %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <hr class="my-4">
+  <div class="row">
+    <div class="col-5 text-center">
+      <strong>Categories</strong>
+      {% for category in categories %}
+          <br />
+          <a class="myAnchor" href="/catalog/{{ category.name }}">{{ category.name }}</a>
+      {% endfor %}
+    </div>
+    <div class="col-7">
+      <strong>Latest Items</strong>
+      {% for item in recentItems%}
+          <br />
+          <a class="myAnchor" href="/catalog/{{ item.category.name }}/{{ item.id }}">{{ item.name }}</a> <span>({{ item.category.name }})</span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}

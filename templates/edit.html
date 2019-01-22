@@ -1,0 +1,42 @@
+{% include "header.html" %}
+  <div class="jumbotron myJumbotron">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'success' %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% elif category == 'error' %}
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="POST" action="/catalog/{{ item.category.name }}/{{ item.id }}/edit">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputName">Name</label>
+          <input name="name" id="inputName" type="text" class="form-control" placeholder="Name" value="{{ item.name }}" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputCategory">Category</label>
+          <select name="category" id="inputCategory" class="form-control" required>
+            <option value="">categories</option>
+            {% for category in categories %}
+                <option value={{ category.id }} {% if category.id == item.category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputDescription">Description</label>
+        <textarea name="description" id="inputDescription" class="form-control" rows="8" placeholder="Description" required>{{ item.description }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-warning">Edit</button>
+      <a class="btn btn-light" href="/catalog/{{ item.category.name }}/{{ item.id }}">Cancel</a>
+    </form>
+  </div>
+{% include "footer.html" %}
